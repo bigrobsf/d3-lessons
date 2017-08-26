@@ -9,7 +9,20 @@
 </head>
 <body>
   <div class="container">
-    <svg class="chart"></svg>
+    <div class="row">
+      <div class="col-md-8">
+        <svg class="chart"></svg>
+      </div>
+      <div class="col-md-4 notes">
+        <h4>Notes:</h4>
+        <p>Hover over circles to see available information.</p>
+        <p>Circle size indicates radius if known.</p>
+        <p>Shading indicates mass if known. The darker the more massive.</p>
+        <p>Data as of 24 August 2017.</p>
+        <p>Source: <a href="https://exoplanetarchive.ipac.caltech.edu/index.html"
+          target="_blank">NASA Exoplanet Archive</a></p>
+      </div>
+    </div>
   </div>
   <div class="tooltip"></div>
   <script src="https://d3js.org/d3.v4.js"></script>

@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       var fillScale = d3.scalePow().exponent(0.5)
                         .domain(d3.extent(data, d => d.massEarths))
-                        .range(['white', 'black']);
+                        .range(['white', '#263238']);
 
       var radiusScale = d3.scaleLinear()
                           .domain(d3.extent(data, d => d.radiusEarths))
@@ -53,15 +53,16 @@ document.addEventListener("DOMContentLoaded", function() {
           .attr("x", width / 2)
           .attr("y", 20)
           .style("text-anchor", "middle")
+          .style("font-size", "16px")
           .style("font-weight", "bold");
 
       svg
         .append("text")
-          .text("Circle size indicates radius if known.")
+          .text(`There are ${data.length} known explanets.`)
           .attr("x", width / 2)
           .attr("y", 40)
           .style("text-anchor", "middle")
-          .style("font-size", "13px");
+          .style("font-size", "12px");
 
       svg
         .append("text")
@@ -74,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       svg
         .append("text")
-          .text("Data as of 24 August 2017")
+          .text("Year of discovery")
           .attr("x", width / 2)
           .attr("y", height - 5)
           .style("text-anchor", "middle")
@@ -122,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <p>Radius (Earth = 1): ${d.radiusEarths !== 0 ? d.radiusEarths : 'N/A'}</p>
             <p>Mass (Earth = 1): ${d.massEarths !== 0 ? d.massEarths : 'N/A'}</p>
             <p>Orbital dist in AU: ${d.distAu}</p>
-            <p>Distance in light-years: ${d.starDist !== 0 ? d.starDist : 'N/A'}</p>
+            <p>Distance in light-years: ${d.starDist !== 0 ? (d.starDist).toFixed(2) : 'N/A'}</p>
           `);
     }
   });
