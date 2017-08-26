@@ -1,0 +1,13 @@
+.tooltip {
+  opacity: 0;
+  position: absolute;
+  pointer-events: none;
+  background-color: #fff59d;
+  border: 3px solid #ffc107;
+  border-radius: 4px;
+  padding: 1em 1em 0 1em;
+}
+
+.tooltip p {
+  line-height: 60%;
+}
