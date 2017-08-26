@@ -3,19 +3,19 @@
 document.addEventListener("DOMContentLoaded", function() {
 
   var width = 800;
-  var height = 700;
+  var height = 800;
   var padding = 60;
 
   d3.csv('exomultpars.csv', function(row) {
       return {
         discoveryMethod: row["mpl_discmethod"],
-        periodDays: +row["mpl_orbper"],
-        distAu: +row["mpl_orbsmax"],
+        periodDays: row["mpl_orbper"] || 'N/A',
+        distAu: row["mpl_orbsmax"] || 'N/A',
         name: row["mpl_name"],
         massEarths: +row["mpl_masse"],
         radiusEarths: +row["mpl_rade"],
         yearFound: row["mpl_disc"],
-        starDist: +row["st_dist"]
+        starDist: +row["st_dist"] * 3.26156
       };
     },
       function(error, data) {
@@ -24,17 +24,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
       var fillScale = d3.scalePow().exponent(0.5)
                         .domain(d3.extent(data, d => d.massEarths))
-                        .range(['black', '#f44336']);
+                        .range(['white', 'black']);
 
-      var radiusScale = d3.scalePow().exponent(0.5)
+      var radiusScale = d3.scaleLinear()
                           .domain(d3.extent(data, d => d.radiusEarths))
-                          .range([2, 15]);
+                          .range([2, 20]);
 
       var xScale = d3.scaleLinear()
                      .domain(d3.extent(data, d => d.yearFound))
                      .range([padding, width - padding]);
 
-      var yScale = d3.scaleLinear()
+      var yScale = d3.scalePow().exponent(0.5)
                      .domain(d3.extent(data, d => d.starDist))
                      .range([height - padding, padding]);
 
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       var yAxis = d3.axisLeft(yScale);
 
-      var svg = d3.select("svg")
+      var svg = d3.select(".chart")
           .attr("width", width)
           .attr("height", height);
 
@@ -57,11 +57,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
       svg
         .append("text")
-          .text("Circle size indicates planet diameter. Black indicates unknown.")
+          .text("Circle size indicates radius if known.")
           .attr("x", width / 2)
           .attr("y", 40)
           .style("text-anchor", "middle")
           .style("font-size", "13px");
+
+      svg
+        .append("text")
+          .text("Distance in light-years")
+          .attr("x", 0)
+          .attr("y", 50)
+          .style("text-anchor", "left")
+          .style("font-size", "14px");
+
 
       svg
         .append("text")
@@ -78,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       svg
         .append("g")
-          .attr("transform", "translate(35, 0)")
+          .attr("transform", "translate(40, 0)")
           .call(yAxis);
 
       svg
@@ -89,6 +98,7 @@ document.addEventListener("DOMContentLoaded", function() {
           .attr("cy", d => yScale(d.starDist))
           .attr("cx", d => xScale(d.yearFound))
           .attr("fill", d => fillScale(d.massEarths))
+          .style("stroke", "black")
           .on("mousemove", showTooltip)
           .on("touchstart", showTooltip)
           .on("mouseout", function() {
@@ -100,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
           .duration(1000)
           .attr("r", d => radiusScale(d.radiusEarths));
 
+
     function showTooltip(d) {
       d3.select(".tooltip")
           .style("opacity", 1)
@@ -107,8 +118,11 @@ document.addEventListener("DOMContentLoaded", function() {
           .style("left", d3.event.x - 80 + "px")
           .html(`
             <p>${d.name}</p>
-            <p>Year: ${d.periodDays} Earth days</p>
-            <p>Max dist from star: ${d.distAu} AU</p>
+            <p>Year in Earth days: ${d.periodDays}</p>
+            <p>Radius (Earth = 1): ${d.radiusEarths !== 0 ? d.radiusEarths : 'N/A'}</p>
+            <p>Mass (Earth = 1): ${d.massEarths !== 0 ? d.massEarths : 'N/A'}</p>
+            <p>Orbital dist in AU: ${d.distAu}</p>
+            <p>Distance in light-years: ${d.starDist !== 0 ? d.starDist : 'N/A'}</p>
           `);
     }
   });
