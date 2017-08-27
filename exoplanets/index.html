@@ -9,11 +9,9 @@
 </head>
 <body>
   <div class="container">
-    <div class="row">
-      <div class="col-md-7">
-        <svg width="800" height="800"></svg>
-      </div>
-      <div class="col-md-5 notes">
+      <svg width="760" height="760"></svg>
+      <div class="notes">
+
         <div class="plot-notes">
           <h4>Notes:</h4>
           <p>Hover over circles to see available information.</p>
@@ -42,12 +40,13 @@
           <p class="definition"><a href="https://en.wikipedia.org/wiki/Methods_of_detecting_exoplanets#Eclipsing_binary_minima_timing" target="_blank">Eclipse Timing Variations</a></p>
           <p class="definition"><a href="https://en.wikipedia.org/wiki/Methods_of_detecting_exoplanets#Astrometry" target="_blank">Astrometry</a></p>
         </div>
-      </div>
+
     </div>
     <div class="text-center selector">
       <p>Select chart type to view Exoplanet data:</p>
       <select name id="chart">
-        <option value="scatter" class="scatter" selected>Scatter Plot, Found by Year</option>
+        <option value="bar" class="bar">Bar Chart, # Found by Year</option>
+        <option value="scatter" class="scatter" selected>Scatter Plot, Distance Found by Year</option>
         <option value="stacked" class="stacked">Stacked Bar, Detection Method</option>
       </select>
     </div>
@@ -56,6 +55,7 @@
   <script src="https://d3js.org/d3.v4.js"></script>
   <script src="scatterPlot.js"></script>
   <script src="stackedBar.js"></script>
+  <script src="barchart.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

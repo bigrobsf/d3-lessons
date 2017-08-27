@@ -1,9 +1,20 @@
-.container {
-  width: 90%;
+body {
+  padding-top: 20px;
 }
 
-.selector {
-  padding-top: 20px;
+svg {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.container {
+  width: 95%;
+  text-align: center;
+}
+
+.container > * {
+  vertical-align: top;
 }
 
 .selector p {
@@ -26,14 +37,20 @@
 }
 
 .notes {
+  max-width: 350px;
   border: 2px solid black;
   border-radius: 8px;
-  margin: 50px 0 0 50px;
-  width: 375px;
+  display: inline-block;
+  text-align: left;
+  margin: 20px 0;
 }
 
 .notes a {
   font-weight: bold;
+}
+
+.plot-notes, .bar-notes {
+  padding: 15px;
 }
 
 .definition {

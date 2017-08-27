@@ -9,8 +9,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (choice === "scatter") {
       scatterPlot();
-    } else {
+    } else if (choice === "stacked") {
       stackedBar();
+    } else {
+      barChart();
     }
   });
 });

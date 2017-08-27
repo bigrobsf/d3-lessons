@@ -50,8 +50,11 @@ function stackedBar() {
         .enter().append("rect")
           .attr("x", function(d) { return x(d.data.Year); })
           .attr("y", function(d) { return y(d[1]); })
-          .attr("height", function(d) { return y(d[0]) - y(d[1]); })
-          .attr("width", x.bandwidth());
+          .attr("width", x.bandwidth())
+          .attr("height", 0)
+          .transition()
+          .duration(1000)
+          .attr("height", function(d) { return y(d[0]) - y(d[1]); });
 
           g.append("g")
               .attr("class", "axis")
@@ -87,7 +90,7 @@ function stackedBar() {
               .selectAll("g")
                 .data(keys.slice().reverse())
                 .enter().append("g")
-                .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+                .attr("transform", function(d, i) { return "translate(0," + (i * 20 + 100) + ")"; });
 
           legend.append("rect")
               .attr("x", 125)
