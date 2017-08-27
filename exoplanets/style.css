@@ -56,3 +56,11 @@ svg {
 .definition {
   line-height:75%;
 }
+
+.bar {
+  fill: #26a69a;
+}
+
+.bar:hover {
+  fill: #ffa726;
+}

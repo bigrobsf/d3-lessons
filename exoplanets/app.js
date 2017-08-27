@@ -1,7 +1,6 @@
 /* jslint esversion:6 */
 
 document.addEventListener("DOMContentLoaded", function() {
-  // scatterPlot();
   barChart();
 
   d3.select("select").on("change", function() {

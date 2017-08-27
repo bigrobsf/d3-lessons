@@ -1,4 +1,5 @@
 /* jslint esversion:6 */
+
 function barChart() {
   d3.select('.plot-notes')
     .classed('hidden', true);
@@ -44,7 +45,7 @@ function barChart() {
         .call(d3.axisBottom(x));
 
     g.append("g")
-        .attr("class", "axis")
+        .attr("class", "axis--y")
         .attr("transform", "translate(" + width + ", 0)")
         .call(d3.axisRight(y).ticks())
       .append("text")
@@ -63,13 +64,16 @@ function barChart() {
         .attr("x", function(d) { return x(d.Year); })
         .attr("y", function(d) { return y(d.total); })
         .attr("width", x.bandwidth())
-        .attr("height", function(d) { return height - y(d.total); })
+        .attr("height", 0)
         .on("mousemove", showTooltip)
         .on("touchstart", showTooltip)
         .on("mouseout", function() {
           d3.select(".tooltip")
-              .style("opacity", 0);
-        });
+          .style("opacity", 0);
+        })
+        .transition()
+        .duration(1000)
+        .attr("height", function(d) { return height - y(d.total); });
 
     svg
       .append("text")
@@ -84,9 +88,9 @@ function barChart() {
       d3.select(".tooltip")
           .style("opacity", 1)
           .style("top", d3.event.y + 20 + "px")
-          .style("left", d3.event.x - 80 + "px")
+          .style("left", d3.event.x - 20 + "px")
           .html(`
-            <p>${d.total}</p>
+            <p>Count for ${d.Year}: ${d.total}</p>
           `);
     }
 
