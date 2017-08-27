@@ -5,8 +5,11 @@ function stackedBar() {
   d3.select('.plot-notes')
     .classed('hidden', true);
 
-  d3.select('.bar-notes')
+  d3.select('.stacked-notes')
     .classed('hidden', false);
+
+  d3.select('.bar-notes')
+    .classed('hidden', true);
 
   var svg = d3.select("svg"),
     margin = {top: 20, right: 40, bottom: 30, left: 20},
@@ -15,7 +18,7 @@ function stackedBar() {
     g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   var x = d3.scaleBand()
-            .rangeRound([0, width]);
+            .rangeRound([0, width]).padding(0.1);
 
   var y = d3.scalePow().exponent(0.7)
             .rangeRound([height, 0]);

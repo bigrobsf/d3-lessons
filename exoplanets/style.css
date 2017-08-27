@@ -49,7 +49,7 @@ svg {
   font-weight: bold;
 }
 
-.plot-notes, .bar-notes {
+.plot-notes, .stacked-notes, .bar-notes {
   padding: 15px;
 }
 

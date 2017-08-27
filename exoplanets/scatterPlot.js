@@ -10,6 +10,9 @@ function scatterPlot() {
   d3.select('.plot-notes')
     .classed('hidden', false);
 
+  d3.select('.stacked-notes')
+    .classed('hidden', true);
+
   d3.select('.bar-notes')
     .classed('hidden', true);
 
