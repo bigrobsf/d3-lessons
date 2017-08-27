@@ -5,6 +5,9 @@ function stackedBar() {
   d3.select('.plot-notes')
     .classed('hidden', true);
 
+  d3.select('.bar-notes')
+    .classed('hidden', false);
+
   var svg = d3.select("svg"),
     margin = {top: 20, right: 40, bottom: 30, left: 20},
     width = +svg.attr("width") - margin.left - margin.right,
@@ -14,35 +17,22 @@ function stackedBar() {
   var x = d3.scaleBand()
             .rangeRound([0, width]);
 
-  var y = d3.scaleLinear()
+  var y = d3.scalePow().exponent(0.7)
             .rangeRound([height, 0]);
 
   var z = d3.scaleOrdinal()
-            .range(["#ff8a80", "#ea80fc", "#b388ff", "#8c9eff", "#80d8ff",
-                    "#a7ffeb", "#b9f6ca", "#f4ff81", "#ffd180", "#ff9e80"]);
+            .range(["#ea80fc", "#b388ff", "#8c9eff", "#80d8ff", "#a7ffeb",
+                    "#b9f6ca", "#f4ff81", "#ffd180", "#ff9e80", "#ff5252"]);
 
   d3.csv('detection_data.csv', function(d, i, columns) {
     for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
     d.total = t;
     return d;
-      // return {
-      //   year: row["Year"],
-      //   astrometry: +row["Astrometry"],
-      //   eclipseTimeVar: +row["Eclipse Timing Variations"],
-      //   imaging: +row["Imaging"],
-      //   microlensing: +row["Microlensing"],
-      //   orbitBrightMod: +row["Orbital Brightness Modulation"],
-      //   pulsarTiming: +row["Pulsar Timing"],
-      //   pulseTimingVar: +row["Pulsation Timing Variations"],
-      //   radialVelocity: +row["Radial Velocity"],
-      //   transit: +row["Transit"],
-      //   transitTimeVar: +row["Transit Timing Variations"]
-      // };
+
     },
 
     function(error, data) {
       if (error) throw error;
-      console.log(data);
 
       var keys = data.columns.slice(1);
 
@@ -81,10 +71,35 @@ function stackedBar() {
               .attr("text-anchor", "start")
               .text("Detections");
 
+          svg
+            .append("text")
+              .text("Detected Exoplanets by Method by Year")
+              .attr("x", width / 2)
+              .attr("y", 20)
+              .style("text-anchor", "middle")
+              .style("font-size", "16px")
+              .style("font-weight", "bold");
 
+          var legend = g.append("g")
+              .attr("font-family", "sans-serif")
+              .attr("font-size", 10)
+              .attr("text-anchor", "end")
+              .selectAll("g")
+                .data(keys.slice().reverse())
+                .enter().append("g")
+                .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
+          legend.append("rect")
+              .attr("x", 125)
+              .attr("width", 19)
+              .attr("height", 19)
+              .attr("fill", z);
 
-
+          legend.append("text")
+              .attr("x", 115)
+              .attr("y", 9.5)
+              .attr("dy", "0.32em")
+              .text(function(d) { return d; });
     }
   );
 }

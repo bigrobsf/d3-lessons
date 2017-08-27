@@ -1,12 +1,17 @@
 /* jslint esversion:6 */
 
 function scatterPlot() {
-  var width = 800;
-  var height = 800;
+  var svg = d3.select("svg");
+  var width = +svg.attr("width");
+  var height = +svg.attr("height");
+
   var padding = 60;
 
   d3.select('.plot-notes')
     .classed('hidden', false);
+
+  d3.select('.bar-notes')
+    .classed('hidden', true);
 
   d3.csv('exomultpars.csv', function(row) {
       return {
@@ -22,11 +27,10 @@ function scatterPlot() {
     },
       function(error, data) {
       if (error) throw error;
-      console.log(data);
 
       var fillScale = d3.scalePow().exponent(0.5)
                         .domain(d3.extent(data, d => d.massEarths))
-                        .range(['white', '#263238']);
+                        .range(['white', '#004d40']);
 
       var radiusScale = d3.scaleLinear()
                           .domain(d3.extent(data, d => d.radiusEarths))
@@ -44,10 +48,6 @@ function scatterPlot() {
                     .tickFormat(d3.format("d"));
 
       var yAxis = d3.axisLeft(yScale);
-
-      var svg = d3.select("svg")
-          .attr("width", width)
-          .attr("height", height);
 
       svg
         .append("text")
