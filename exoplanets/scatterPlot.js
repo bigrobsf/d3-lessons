@@ -104,7 +104,9 @@ function scatterPlot() {
           .attr("cy", d => yScale(d.starDist))
           .attr("cx", d => xScale(d.yearFound))
           .attr("fill", d => fillScale(d.massEarths))
-          .style("stroke", "black")
+          .style("stroke", function(d) {
+            return d.starDist === 0 ? "#ff5722" : "black";
+          })
           .on("mousemove", showTooltipScatter)
           .on("touchstart", showTooltipScatter)
           .on("mouseout", function() {

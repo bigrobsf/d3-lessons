@@ -43,14 +43,11 @@ svg {
   display: inline-block;
   text-align: left;
   margin: 20px 0;
+  padding: 15px;
 }
 
 .notes a {
   font-weight: bold;
-}
-
-.plot-notes, .stacked-notes, .bar-notes {
-  padding: 15px;
 }
 
 .definition {
