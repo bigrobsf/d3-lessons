@@ -30,6 +30,7 @@ function stackedBar() {
   d3.csv('detection_data.csv', function(d, i, columns) {
     for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
     d.total = t;
+
     return d;
 
     },
@@ -55,6 +56,14 @@ function stackedBar() {
           .attr("y", function(d) { return y(d[1]); })
           .attr("width", x.bandwidth())
           .attr("height", 0)
+
+          .on("mousemove", showTooltip)
+          .on("touchstart", showTooltip)
+          .on("mouseout", function() {
+            d3.select(".tooltip")
+            .style("opacity", 0);
+          })
+
           .transition()
           .duration(1000)
           .attr("height", function(d) { return y(d[0]) - y(d[1]); });
@@ -106,6 +115,17 @@ function stackedBar() {
               .attr("y", 9.5)
               .attr("dy", "0.32em")
               .text(function(d) { return d; });
+
+          function showTooltip(d) {
+            d3.select(".tooltip")
+                .style("opacity", 1)
+                .style("top", d3.event.y + 20 + "px")
+                .style("left", d3.event.x - 20 + "px")
+                .html(`
+                  <p>Total count for ${d.data.Year}: ${d.data.total}</p>
+                  <p>Method count: ${d[1] - d[0]}</p>
+                `);
+          }
     }
   );
 }

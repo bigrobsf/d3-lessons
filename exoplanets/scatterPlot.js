@@ -107,8 +107,8 @@ function scatterPlot() {
           .style("stroke", function(d) {
             return d.starDist === 0 ? "#ff5722" : "black";
           })
-          .on("mousemove", showTooltipScatter)
-          .on("touchstart", showTooltipScatter)
+          .on("mousemove", showTooltip)
+          .on("touchstart", showTooltip)
           .on("mouseout", function() {
             d3.select(".tooltip")
                 .style("opacity", 0);
@@ -119,7 +119,7 @@ function scatterPlot() {
           .attr("r", d => radiusScale(d.radiusEarths));
 
 
-    function showTooltipScatter(d) {
+    function showTooltip(d) {
       d3.select(".tooltip")
           .style("opacity", 1)
           .style("top", d3.event.y + 20 + "px")
