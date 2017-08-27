@@ -3,9 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Birth Data Scatterplot</title>
+  <style>
+    .tooltip {
+      opacity: 0;
+      position: absolute;
+      pointer-events: none;
+      background-color: lightblue;
+      border: 3px solid blue;
+      border-radius: 4px;
+      padding: 3px;
+    }
+  </style>
 </head>
 <body>
   <svg></svg>
+  <div class="tooltip">Here's my tooltip!</div>
   <script src="https://d3js.org/d3.v4.js"></script>
   <script src="birthData2011.js"></script>
   <script src="app.js"></script>

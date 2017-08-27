@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
       return {
         rank: row["Rank"],
         title: row["Title"],
+        stars: row["Stars"],
         debut: row["Debut"],
         rating: +row["Rating"],
         numRatings: +row["Num of Ratings"]
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
       var fillScale = d3.scalePow().exponent(0.5)
                         .domain(d3.extent(shows, d => d.numRatings))
-                        .range(['black', 'red']);
+                        .range(['black', '#f44336']);
 
       var radiusScale = d3.scalePow().exponent(0.5)
                           .domain(d3.extent(shows, d => d.numRatings))
@@ -75,8 +76,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
       svg
         .append("g")
-          .call(yAxis)
-          .attr("transform", "translate(35, 0)");
+          .attr("transform", "translate(35, 0)")
+          .call(yAxis);
 
       svg
         .selectAll("circle")
@@ -85,7 +86,28 @@ document.addEventListener("DOMContentLoaded", function() {
         .append("circle")
           .attr("cy", d => yScale(d.rating))
           .attr("cx", d => xScale(d.debut))
-          .attr("r", d => radiusScale(d.numRatings))
-          .attr("fill", d => fillScale(d.numRatings));
+          .attr("fill", d => fillScale(d.numRatings))
+          .on("mousemove", showTooltip)
+          .on("touchstart", showTooltip)
+          .on("mouseout", function() {
+            d3.select(".tooltip")
+                .style("opacity", 0);
+          })
+          .attr("r", 0)
+          .transition()
+          .duration(1000)
+          .delay((d, i) => i * 10)
+          .attr("r", d => radiusScale(d.numRatings));
+
+    function showTooltip(d) {
+      d3.select(".tooltip")
+          .style("opacity", 1)
+          .style("top", d3.event.y + 20 + "px")
+          .style("left", d3.event.x - 80 + "px")
+          .html(`
+            <p>#${d.rank}: ${d.title}</p>
+            <p>${d.stars}</p>
+          `);
+    }
   });
 });

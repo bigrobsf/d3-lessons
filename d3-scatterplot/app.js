@@ -66,6 +66,38 @@ d3.csv('./all_data.csv', function(row) {
         .attr("cy", d => yScale(d.population / d.area))
         .attr("cx", d => xScale(d.lifeExpectancy))
         .attr("r", 10)
-        .attr("fill", d => fillScale(d.births / d.population));
+        .attr("fill", d => fillScale(d.births / d.population))
+        .on("mousemove", showTooltip)
+        .on("touchstart", showTooltip)
+        .on("mouseout", function() {
+          d3.select(".tooltip")
+              .style("opacity", 0);
+        })
+        .attr("r", 0)
+        .transition()
+        .duration(1000)
+        .delay((d, i) => i * 10)
+        // .ease(d3.easeBounceOut)
+          .attr("r", 10);
+
+    function showTooltip(d) {
+      d3.select(".tooltip")
+          .style("opacity", 1)
+          .style("top", d3.event.y + 20 + "px")
+          .style("left", d3.event.x + 20 + "px")
+          // .text(d.region)
+          .html(`
+            <p>Country: ${d.region}</p>
+            <p>Population: ${d.population}</p>
+            <p>Life Expectancy: ${d.lifeExpectancy}</p>
+          `);
+    }
   });
 });
+
+
+
+
+
+
+// end
